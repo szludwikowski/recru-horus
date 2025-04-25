@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { EmployeeBrowserRoutingModule } from './employee-browser-routing.module';
 import { EmployeeBrowserComponent } from './employee-browser.component';
@@ -13,6 +14,11 @@ import { SharedModule } from '@shared/shared.module';
     EmployeeSelectComponent,
     EmployeeHierarchyComponent,
   ],
-  imports: [CommonModule, EmployeeBrowserRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    EmployeeBrowserRoutingModule,
+    SharedModule,
+  ],
 })
 export class EmployeeBrowserModule {}

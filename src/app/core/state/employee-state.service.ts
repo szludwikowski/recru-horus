@@ -5,7 +5,7 @@ import {
   EmployeeNode,
   EmployeeSelectionState,
 } from '@shared/models/employee.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, catchError, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -22,6 +22,9 @@ export class EmployeeStateService {
     this.initialState
   );
   private hierarchyPath = new BehaviorSubject<Employee[]>([]);
+
+  private isLoading = new BehaviorSubject<boolean>(false);
+  private error = new BehaviorSubject<string | null>(null);
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -45,9 +48,19 @@ export class EmployeeStateService {
     return this.hierarchyPath.asObservable();
   }
 
+  get isLoading$(): Observable<boolean> {
+    return this.isLoading.asObservable();
+  }
+
+  get error$(): Observable<string | null> {
+    return this.error.asObservable();
+  }
+
   selectEmployee(employee: Employee | undefined): void {
     const currentState = this.state.getValue();
     const newEmployee = employee ?? null;
+
+    this.error.next(null);
 
     if (!newEmployee) {
       this.hierarchyPath.next([]);
@@ -60,8 +73,19 @@ export class EmployeeStateService {
       return;
     }
 
+    this.isLoading.next(true);
+
     this.employeeService
       .getSubordinateTree(newEmployee.id)
+      .pipe(
+        catchError((err) => {
+          this.error.next(
+            `Failed to load subordinates: ${err.message || 'Unknown error'}`
+          );
+          return of([]);
+        }),
+        finalize(() => this.isLoading.next(false))
+      )
       .subscribe((subordinates) => {
         this.state.next({
           selectedEmployee: newEmployee,
@@ -72,6 +96,14 @@ export class EmployeeStateService {
 
     this.employeeService
       .getEmployeeHierarchyPath(newEmployee.id)
+      .pipe(
+        catchError((err) => {
+          this.error.next(
+            `Failed to load hierarchy path: ${err.message || 'Unknown error'}`
+          );
+          return of([]);
+        })
+      )
       .subscribe((path) => {
         this.hierarchyPath.next(path);
       });
@@ -83,5 +115,9 @@ export class EmployeeStateService {
       ...currentState,
       isAllExpanded: isExpanded,
     });
+  }
+
+  clearError(): void {
+    this.error.next(null);
   }
 }

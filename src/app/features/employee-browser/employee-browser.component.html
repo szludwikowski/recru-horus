@@ -1,5 +1,12 @@
 <h1>Przeglądarka Pracowników</h1>
 
+<div class="error-message" *ngIf="(employeeState.error$ | async) as errorMessage">
+  <div class="alert alert-danger">
+    <span>{{ errorMessage }}</span>
+    <button class="close-btn" (click)="clearError()">×</button>
+  </div>
+</div>
+
 <div class="employee-selection">
   <app-employee-select id="employeeSelect" (employeeSelected)="onEmployeeSelected($event)"></app-employee-select>
 </div>
@@ -9,15 +16,30 @@
   <app-employee-hierarchy></app-employee-hierarchy>
 </div>
 
+<div class="loading-indicator" *ngIf="(employeeState.isLoading$ | async)">
+  <div class="spinner"></div>
+  <span>Ładowanie danych...</span>
+</div>
+
 <div class="tree-display" *ngIf="(selectedEmployee$ | async) as employee">
   <div class="tree-header">
     <h3>Struktura podwładnych dla <span class="employee-name-highlight">{{ employee.firstName }} {{ employee.lastName }}</span>:</h3>
     <div class="tree-controls" *ngIf="(subordinateTree$ | async) as tree">
+      <div class="search-container">
+        <input 
+          type="text" 
+          placeholder="Szukaj pracowników..." 
+          [(ngModel)]="searchQuery" 
+          (input)="onSearchInput()"
+          class="search-input"
+        />
+        <button *ngIf="searchQuery" class="clear-search" (click)="clearSearch()">×</button>
+      </div>
       <button class="neo-button" *ngIf="hasExpandableNodes(tree)" (click)="toggleAllSubordinates()">
         {{ (isAllExpanded$ | async) ? 'Zwiń wszystko' : 'Rozwiń wszystko' }}
       </button>
     </div>
   </div>
-  <app-tree-view #subordinateTreeView [nodes]="(subordinateTree$ | async) ?? []"></app-tree-view>
+  <app-tree-view #subordinateTreeView [nodes]="(filteredSubordinates$ | async) ?? []"></app-tree-view>
 </div>
 

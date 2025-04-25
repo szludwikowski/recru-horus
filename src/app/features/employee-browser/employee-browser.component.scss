@@ -1,3 +1,9 @@
+// Define variables locally since the imported file doesn't exist
+$primary-color: #007bff;
+$neobrut-color: #FFCC00;
+$neobrut-black: #000000;
+$neobrut-shadow: 4px 4px 0 $neobrut-black;
+
 .tree-header {
   display: flex;
   justify-content: space-between;
@@ -27,5 +33,169 @@
     order: 1;
     flex-shrink: 0;
     margin-bottom: 10px;
+  }
+}
+
+.error-message {
+  background-color: #fff3f3;
+  border-left: 4px solid #f44336;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  .alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: #f44336;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 8px;
+      
+      &:hover {
+        color: darken(#f44336, 10%);
+      }
+    }
+  }
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: $primary-color;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+  }
+  
+  span {
+    color: #666;
+  }
+}
+
+// Search input styles with neobrutalist design
+.search-container {
+  position: relative;
+  margin-right: 15px;
+  
+  .search-input {
+    padding: 10px 12px;
+    border: 3px solid $neobrut-black;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ffffff;
+    color: $neobrut-black;
+    width: 220px;
+    box-shadow: $neobrut-shadow;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: $neobrut-color;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 $neobrut-black;
+    }
+    
+    &::placeholder {
+      color: rgba($neobrut-black, 0.6);
+      font-weight: normal;
+    }
+  }
+  
+  .clear-search {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: $neobrut-black;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0;
+    
+    &:hover {
+      color: $neobrut-color;
+    }
+  }
+}
+
+.tree-controls {
+  display: flex;
+  align-items: center;
+}
+
+// Neobrutalist button style
+.neo-button {
+  background-color: $neobrut-color;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 15px;
+  border: 3px solid $neobrut-black;
+  box-shadow: $neobrut-shadow;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 $neobrut-black;
+  }
+  
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 $neobrut-black;
+  }
+}
+
+// Mobile responsiveness for search and expand/collapse
+@media (max-width: 600px) {
+  .tree-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .tree-controls {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .search-container {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  
+  .neo-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
