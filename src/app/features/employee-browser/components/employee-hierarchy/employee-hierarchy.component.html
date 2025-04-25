@@ -1,0 +1,11 @@
+<div class="hierarchy-path" *ngIf="(hierarchyPath$ | async) as path">
+  <ng-container *ngIf="path.length > 0; else noSelection">
+    <span *ngFor="let employee of path; let isLast = last">
+      <span>{{ employee.firstName }} {{ employee.lastName }}</span>
+      <span *ngIf="!isLast" class="separator"> -> </span>
+    </span>
+  </ng-container>
+  <ng-template #noSelection>
+    <span class="placeholder">Wybierz pracownika, aby zobaczyć jego ścieżkę przełożonych.</span>
+  </ng-template>
+</div>

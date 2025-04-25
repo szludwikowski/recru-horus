@@ -1,0 +1,6 @@
+<select (change)="onSelectionChange($event)" [value]="selectedEmployeeId">
+  <option [value]="null" disabled selected>-- Wybierz pracownika --</option>
+  <option *ngFor="let employee of employees$ | async" [value]="employee.id">
+    {{ employee.firstName }} {{ employee.lastName }} ({{ employee.position }})
+  </option>
+</select>
