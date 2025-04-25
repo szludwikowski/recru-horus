@@ -27,9 +27,11 @@ export class TreeViewComponent {
 
   private setExpansionState(nodes: EmployeeNode[], isExpanded: boolean): void {
     for (const node of nodes) {
-      node.isExpanded = isExpanded;
-      if (node.children?.length) {
-        this.setExpansionState(node.children, isExpanded);
+      if (node.children && node.children.length > 0) {
+        node.isExpanded = isExpanded;
+        if (node.children.length) {
+          this.setExpansionState(node.children, isExpanded);
+        }
       }
     }
   }

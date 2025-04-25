@@ -13,7 +13,7 @@
   <div class="tree-header">
     <h3>Struktura podwładnych dla <span class="employee-name-highlight">{{ currentSelectedEmployee.firstName }} {{ currentSelectedEmployee.lastName }}</span>:</h3>
     <div class="tree-controls" *ngIf="(subordinateTree$ | async) as tree">
-      <button class="neo-button" *ngIf="tree.length > 0" (click)="toggleAllSubordinates()">
+      <button class="neo-button" *ngIf="hasExpandableNodes(tree)" (click)="toggleAllSubordinates()">
         {{ allSubordinatesExpanded ? 'Zwiń wszystko' : 'Rozwiń wszystko' }}
       </button>
     </div>

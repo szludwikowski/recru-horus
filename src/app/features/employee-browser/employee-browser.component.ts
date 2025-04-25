@@ -33,4 +33,25 @@ export class EmployeeBrowserComponent {
       : this.subordinateTreeView.expandAll();
     this.allSubordinatesExpanded = !this.allSubordinatesExpanded;
   }
+
+  hasExpandableNodes(nodes: EmployeeNode[]): boolean {
+    if (!nodes || nodes.length === 0) return false;
+    return this.checkForExpandableNodes(nodes);
+  }
+
+  private checkForExpandableNodes(nodes: EmployeeNode[]): boolean {
+    for (const node of nodes) {
+      if (node.children && node.children.length > 0) {
+        return true;
+      }
+    }
+
+    for (const node of nodes) {
+      if (node.children && this.checkForExpandableNodes(node.children)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
