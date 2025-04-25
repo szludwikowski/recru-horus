@@ -1,1 +1,29 @@
+:root {
+  --primary-blue: #3b82f6; 
+  --background-color: #f4f4f0;
+  --box-background: #e0e7ff; 
+  --box-border: #a5b4fc;
+  --text-color: #1f2937; 
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+h3 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 

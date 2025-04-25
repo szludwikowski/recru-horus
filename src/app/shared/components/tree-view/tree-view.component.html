@@ -1,6 +1,9 @@
-<ul class="tree-list">
+<ul class="tree-list" *ngIf="nodes && nodes.length > 0">
   <li *ngFor="let node of nodes" class="tree-node-item">
-    <div class="node-content" (click)="toggleNode(node)" [class.has-children]="node.children && node.children.length > 0">
+    <div class="node-content" 
+         (click)="toggleNode(node)" 
+         [class.has-children]="node.children && node.children.length > 0"
+         [class.expanded]="node.isExpanded"> 
       <span class="toggle-icon" [class.expanded]="node.isExpanded" *ngIf="node.children && node.children.length > 0">
         ▶
       </span>
@@ -16,3 +19,7 @@
     </div>
   </li>
 </ul>
+
+<div *ngIf="!nodes || nodes.length === 0" class="no-subordinates">
+  Brak bezpośrednich podwładnych.
+</div>

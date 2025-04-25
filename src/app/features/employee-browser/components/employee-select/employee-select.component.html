@@ -1,5 +1,6 @@
-<select (change)="onSelectionChange($event)" [value]="selectedEmployeeId">
-  <option [value]="null" disabled selected>-- Wybierz pracownika --</option>
+<label for="employeeSelect">Wybierz pracownika:</label>
+<select id="employeeSelect" class="neo-select" (change)="onSelectionChange($event)">
+  <option value="">-- Wybierz --</option>
   <option *ngFor="let employee of employees$ | async" [value]="employee.id">
     {{ employee.firstName }} {{ employee.lastName }}
   </option>

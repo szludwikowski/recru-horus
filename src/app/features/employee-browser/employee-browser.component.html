@@ -1,7 +1,6 @@
-<h2>Przeglądarka Pracowników</h2>
+<h1>Przeglądarka Pracowników</h1>
 
 <div class="employee-selection">
-  <label for="employeeSelect">Wybierz pracownika:</label>
   <app-employee-select id="employeeSelect" (employeeSelected)="onEmployeeSelected($event)"></app-employee-select>
 </div>
 
@@ -11,7 +10,14 @@
 </div>
 
 <div class="tree-display" *ngIf="currentSelectedEmployee">
-  <h3>Struktura podwładnych dla {{ currentSelectedEmployee.firstName }} {{ currentSelectedEmployee.lastName }}:</h3>
-  <app-tree-view [nodes]="(subordinateTree$ | async) ?? []"></app-tree-view>
+  <div class="tree-header">
+    <h3>Struktura podwładnych dla <span class="employee-name-highlight">{{ currentSelectedEmployee.firstName }} {{ currentSelectedEmployee.lastName }}</span>:</h3>
+    <div class="tree-controls">
+      <button class="neo-button" (click)="toggleAllSubordinates()">
+        {{ allSubordinatesExpanded ? 'Zwiń wszystko' : 'Rozwiń wszystko' }}
+      </button>
+    </div>
+  </div>
+  <app-tree-view #subordinateTreeView [nodes]="(subordinateTree$ | async) ?? []"></app-tree-view>
 </div>
 

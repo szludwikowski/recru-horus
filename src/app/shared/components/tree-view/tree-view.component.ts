@@ -16,4 +16,23 @@ export class TreeViewComponent {
       node.isExpanded = !node.isExpanded;
     }
   }
+
+  expandAll(): void {
+    this.setExpansionState(this.nodes, true);
+  }
+
+  collapseAll(): void {
+    this.setExpansionState(this.nodes, false);
+  }
+
+  private setExpansionState(nodes: EmployeeNode[], isExpanded: boolean): void {
+    for (const node of nodes) {
+      if (node.children && node.children.length > 0) {
+        node.isExpanded = isExpanded;
+        this.setExpansionState(node.children, isExpanded);
+      } else {
+        node.isExpanded = false;
+      }
+    }
+  }
 }
