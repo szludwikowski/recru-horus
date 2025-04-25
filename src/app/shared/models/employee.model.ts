@@ -9,3 +9,9 @@ export interface EmployeeNode {
   children: EmployeeNode[];
   isExpanded?: boolean;
 }
+
+export interface EmployeeSelectionState {
+  selectedEmployee: Employee | null;
+  subordinates: EmployeeNode[];
+  isAllExpanded: boolean;
+}

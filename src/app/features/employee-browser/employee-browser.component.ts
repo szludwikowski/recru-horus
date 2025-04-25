@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Employee, EmployeeNode } from '@shared/models/employee.model';
-import { EmployeeService } from '@core/services/employee.service';
 import { TreeViewComponent } from '@shared/components/tree-view/tree-view.component';
+import { EmployeeStateService } from '@core/state/employee-state.service';
 
 @Component({
   selector: 'app-employee-browser',
@@ -12,26 +12,27 @@ import { TreeViewComponent } from '@shared/components/tree-view/tree-view.compon
 export class EmployeeBrowserComponent {
   @ViewChild('subordinateTreeView') subordinateTreeView!: TreeViewComponent;
 
-  currentSelectedEmployee: Employee | null = null;
-  subordinateTree$: Observable<EmployeeNode[]> = of([]);
-  allSubordinatesExpanded: boolean = false;
+  selectedEmployee$ = this.employeeState.selectedEmployee$;
+  subordinateTree$ = this.employeeState.subordinates$;
+  isAllExpanded$ = this.employeeState.isAllExpanded$;
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeState: EmployeeStateService) {}
 
   onEmployeeSelected(employee?: Employee): void {
-    this.currentSelectedEmployee = employee ?? null;
-    this.allSubordinatesExpanded = false;
-    this.subordinateTree$ = employee
-      ? this.employeeService.getSubordinateTree(employee.id)
-      : of([]);
+    this.employeeState.selectEmployee(employee);
   }
 
   toggleAllSubordinates(): void {
-    if (!this.subordinateTreeView || !this.currentSelectedEmployee) return;
-    this.allSubordinatesExpanded
-      ? this.subordinateTreeView.collapseAll()
-      : this.subordinateTreeView.expandAll();
-    this.allSubordinatesExpanded = !this.allSubordinatesExpanded;
+    if (!this.subordinateTreeView) return;
+    this.employeeState.isAllExpanded$.pipe(take(1)).subscribe((isExpanded) => {
+      if (isExpanded) {
+        this.subordinateTreeView.collapseAll();
+        this.employeeState.setAllExpanded(false);
+      } else {
+        this.subordinateTreeView.expandAll();
+        this.employeeState.setAllExpanded(true);
+      }
+    });
   }
 
   hasExpandableNodes(nodes: EmployeeNode[]): boolean {
@@ -44,9 +45,6 @@ export class EmployeeBrowserComponent {
       if (node.children && node.children.length > 0) {
         return true;
       }
-    }
-
-    for (const node of nodes) {
       if (node.children && this.checkForExpandableNodes(node.children)) {
         return true;
       }

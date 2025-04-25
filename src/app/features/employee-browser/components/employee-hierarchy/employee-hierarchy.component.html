@@ -7,12 +7,10 @@
       <span *ngIf="!isLast" class="hierarchy-separator">></span>
     </ng-container>
   </div>
-  <div *ngIf="path.length === 0 && selectedEmployee" class="no-hierarchy">
-    Ten pracownik nie ma przełożonych.
-  </div>
+ 
 </ng-container>
 <ng-template #noSelectionOrHierarchy>
-  <div *ngIf="!selectedEmployee" class="no-hierarchy">
+  <div class="no-hierarchy">
     Wybierz pracownika, aby zobaczyć jego ścieżkę przełożonych.
   </div>
 </ng-template>
