@@ -1,0 +1,18 @@
+<ul class="tree-list">
+  <li *ngFor="let node of nodes" class="tree-node-item">
+    <div class="node-content" (click)="toggleNode(node)" [class.has-children]="node.children && node.children.length > 0">
+      <span class="toggle-icon" [class.expanded]="node.isExpanded" *ngIf="node.children && node.children.length > 0">
+        ▶
+      </span>
+      <span class="toggle-icon placeholder" *ngIf="!node.children || node.children.length === 0"></span>
+
+      <span class="employee-info">
+        {{ node.employee.firstName }} {{ node.employee.lastName }}
+      </span>
+    </div>
+
+    <div class="node-children-container" *ngIf="node.isExpanded && node.children && node.children.length > 0">
+      <app-tree-view [nodes]="node.children"></app-tree-view>
+    </div>
+  </li>
+</ul>

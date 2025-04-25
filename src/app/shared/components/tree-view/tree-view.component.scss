@@ -1,0 +1,41 @@
+.tree-list {
+  list-style-type: none; 
+  padding-left: 0; 
+}
+
+.tree-node-item {
+}
+
+.node-content {
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+  padding: 4px 0; 
+
+  &:hover {
+    background-color: #f0f0f0; 
+  }
+}
+
+.toggle-icon {
+  display: inline-block;
+  width: 1.5em; 
+  text-align: center; 
+  transition: transform 0.2s ease-in-out; 
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+
+  &.placeholder {
+    visibility: hidden; 
+  }
+}
+
+.employee-info {
+  margin-left: 4px; 
+}
+
+.node-children-container {
+  padding-left: 2em; 
+}

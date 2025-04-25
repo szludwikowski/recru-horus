@@ -2,13 +2,16 @@
 
 <div class="employee-selection">
   <label for="employeeSelect">Wybierz pracownika:</label>
-
   <app-employee-select id="employeeSelect" (employeeSelected)="onEmployeeSelected($event)"></app-employee-select>
 </div>
 
 <div class="hierarchy-display">
   <h3>Ścieżka przełożonych:</h3>
-
   <app-employee-hierarchy [selectedEmployee]="currentSelectedEmployee"></app-employee-hierarchy>
+</div>
+
+<div class="tree-display" *ngIf="currentSelectedEmployee">
+  <h3>Struktura podwładnych dla {{ currentSelectedEmployee.firstName }} {{ currentSelectedEmployee.lastName }}:</h3>
+  <app-tree-view [nodes]="(subordinateTree$ | async) ?? []"></app-tree-view>
 </div>
 
