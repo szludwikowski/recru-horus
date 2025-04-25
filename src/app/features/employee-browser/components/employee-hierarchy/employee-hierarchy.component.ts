@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Employee } from '../../../../shared/models/employee.model';
-import { EmployeeService } from '../../../../core/services/employee.service';
+import { Employee } from '@shared/models/employee.model';
+import { EmployeeService } from '@core/services/employee.service';
 
 @Component({
   selector: 'app-employee-hierarchy',

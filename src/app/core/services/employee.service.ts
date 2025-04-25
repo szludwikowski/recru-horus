@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, shareReplay, catchError } from 'rxjs/operators';
-import { Employee, EmployeeNode } from '../../shared/models/employee.model';
+import { Employee, EmployeeNode } from '@shared/models/employee.model';
 
 interface RawEmployeeNode {
   id: string;

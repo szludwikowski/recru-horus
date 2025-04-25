@@ -6,8 +6,8 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Employee } from '../../../../shared/models/employee.model';
-import { EmployeeService } from '../../../../core/services/employee.service';
+import { Employee } from '@shared/models/employee.model';
+import { EmployeeService } from '@core/services/employee.service';
 
 @Component({
   selector: 'app-employee-select',

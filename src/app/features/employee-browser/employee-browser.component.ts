@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Employee, EmployeeNode } from '../../shared/models/employee.model';
-import { EmployeeService } from '../../core/services/employee.service';
-import { TreeViewComponent } from '../../shared/components/tree-view/tree-view.component';
+import { Employee, EmployeeNode } from '@shared/models/employee.model';
+import { EmployeeService } from '@core/services/employee.service';
+import { TreeViewComponent } from '@shared/components/tree-view/tree-view.component';
 
 @Component({
   selector: 'app-employee-browser',
