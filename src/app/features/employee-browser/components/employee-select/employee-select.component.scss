@@ -1,36 +1,13 @@
 :host {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
-  gap: 10px; 
+  gap: 10px;
 }
 
 label {
   font-weight: bold;
 }
 
-.neo-select {
-  padding: 10px 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #000000;
-  background-color: #ffffff; 
-  border: 2px solid #000000;
-  box-shadow: 4px 4px 0px #000000;
-  border-radius: 0; 
-  appearance: none; 
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
 
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px 12px;
-
-  &:focus {
-    outline: 2px solid #ffd700; 
-    outline-offset: 2px;
-  }
-}

@@ -41,22 +41,17 @@ export class EmployeeService {
         map(({ employees, structure }) => {
           const employeeMap = new Map(employees.map((e) => [e.id, e]));
           const managerMap = this.buildManagerMap(structure);
-          employees.forEach((emp) => {
-            if (!emp.managerId) {
-              emp.managerId = managerMap.get(emp.id) ?? null;
-            }
-          });
           return { employees, employeeMap, managerMap, structure };
         }),
         shareReplay(1),
-        catchError((error) => {
-          return of({
+        catchError(() =>
+          of({
             employees: [],
             employeeMap: new Map(),
             managerMap: new Map(),
             structure: null,
-          });
-        })
+          })
+        )
       );
     }
     return this.processedDataCache$;
@@ -122,26 +117,16 @@ export class EmployeeService {
     structureNode: RawEmployeeNode | null,
     employeeMap: Map<string, Employee>
   ): EmployeeNode[] {
-    if (!structureNode || !structureNode.subordinates) {
-      return [];
-    }
-
+    if (!structureNode?.subordinates?.length) return [];
     return structureNode.subordinates.map((subNode) => {
-      const employee = employeeMap.get(subNode.id);
-      if (!employee) {
-        return {
-          employee: {
-            id: subNode.id,
-            firstName: subNode.firstName,
-            lastName: subNode.lastName,
-            position: 'Unknown',
-          },
-          children: this.buildSubordinateTreeSync(subNode, employeeMap),
-          isExpanded: false,
-        };
-      }
+      const employee = employeeMap.get(subNode.id) ?? {
+        id: subNode.id,
+        firstName: subNode.firstName,
+        lastName: subNode.lastName,
+        position: 'Unknown',
+      };
       return {
-        employee: employee,
+        employee,
         children: this.buildSubordinateTreeSync(subNode, employeeMap),
         isExpanded: false,
       };

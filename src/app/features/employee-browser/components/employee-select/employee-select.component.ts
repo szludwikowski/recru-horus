@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Output,
   EventEmitter,
   ViewChild,
@@ -15,34 +14,22 @@ import { EmployeeService } from '../../../../core/services/employee.service';
   templateUrl: './employee-select.component.html',
   styleUrls: ['./employee-select.component.scss'],
 })
-export class EmployeeSelectComponent implements OnInit {
+export class EmployeeSelectComponent {
   @ViewChild('employeeSelectElement')
   selectElementRef!: ElementRef<HTMLSelectElement>;
-
-  employees$: Observable<Employee[]>;
+  employees$ = this.employeeService.getEmployees();
   selectedEmployeeId: string | null = null;
+  @Output() employeeSelected = new EventEmitter<Employee | undefined>();
 
-  @Output() employeeSelected = new EventEmitter<Employee>();
-
-  constructor(private employeeService: EmployeeService) {
-    this.employees$ = this.employeeService.getEmployees();
-  }
-
-  ngOnInit(): void {}
+  constructor(private employeeService: EmployeeService) {}
 
   onSelectionChange(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const employeeId = selectElement.value;
-    this.selectedEmployeeId = employeeId === '' ? null : employeeId;
-
-    if (this.selectedEmployeeId) {
+    const employeeId = (event.target as HTMLSelectElement).value || null;
+    this.selectedEmployeeId = employeeId;
+    if (employeeId) {
       this.employeeService
-        .getEmployeeById(this.selectedEmployeeId)
-        .subscribe((employee) => {
-          if (employee) {
-            this.employeeSelected.emit(employee);
-          }
-        });
+        .getEmployeeById(employeeId)
+        .subscribe((employee) => this.employeeSelected.emit(employee));
     } else {
       this.employeeSelected.emit(undefined);
     }

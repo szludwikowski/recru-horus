@@ -18,28 +18,19 @@ export class EmployeeBrowserComponent {
 
   constructor(private employeeService: EmployeeService) {}
 
-  onEmployeeSelected(employee: Employee | undefined): void {
-    if (employee) {
-      this.currentSelectedEmployee = employee;
-      this.allSubordinatesExpanded = false;
-      this.subordinateTree$ = this.employeeService.getSubordinateTree(
-        employee.id
-      );
-    } else {
-      this.currentSelectedEmployee = null;
-      this.subordinateTree$ = of([]);
-      this.allSubordinatesExpanded = false;
-    }
+  onEmployeeSelected(employee?: Employee): void {
+    this.currentSelectedEmployee = employee ?? null;
+    this.allSubordinatesExpanded = false;
+    this.subordinateTree$ = employee
+      ? this.employeeService.getSubordinateTree(employee.id)
+      : of([]);
   }
 
   toggleAllSubordinates(): void {
-    if (this.subordinateTreeView && this.currentSelectedEmployee) {
-      if (this.allSubordinatesExpanded) {
-        this.subordinateTreeView.collapseAll();
-      } else {
-        this.subordinateTreeView.expandAll();
-      }
-      this.allSubordinatesExpanded = !this.allSubordinatesExpanded;
-    }
+    if (!this.subordinateTreeView || !this.currentSelectedEmployee) return;
+    this.allSubordinatesExpanded
+      ? this.subordinateTreeView.collapseAll()
+      : this.subordinateTreeView.expandAll();
+    this.allSubordinatesExpanded = !this.allSubordinatesExpanded;
   }
 }

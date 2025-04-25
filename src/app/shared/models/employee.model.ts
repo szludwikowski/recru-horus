@@ -3,7 +3,6 @@ export interface Employee {
   firstName: string;
   lastName: string;
   position: string;
-  managerId?: string | null;
 }
 
 export interface EmployeeNode {

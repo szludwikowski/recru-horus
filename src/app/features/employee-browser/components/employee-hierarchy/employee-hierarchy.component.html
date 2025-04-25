@@ -1,7 +1,7 @@
 <ng-container *ngIf="(hierarchyPath$ | async) as path; else noSelectionOrHierarchy">
   <div class="hierarchy-container" *ngIf="path.length > 0"> 
     <ng-container *ngFor="let employee of path; let isLast = last">
-      <div class="hierarchy-item">
+      <div class="hierarchy-item neo-ui">
         {{ employee.firstName }} {{ employee.lastName }}
       </div>
       <span *ngIf="!isLast" class="hierarchy-separator">></span>
