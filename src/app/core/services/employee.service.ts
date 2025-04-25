@@ -64,11 +64,7 @@ export class EmployeeService {
   ): Map<string, string | null> {
     if (!node) return map;
     map.set(node.id, managerId);
-    if (node.subordinates && node.subordinates.length > 0) {
-      node.subordinates.forEach((subordinate) => {
-        this.buildManagerMap(subordinate, node.id, map);
-      });
-    }
+    node.subordinates?.forEach((s) => this.buildManagerMap(s, node.id, map));
     return map;
   }
 
@@ -88,15 +84,11 @@ export class EmployeeService {
     managerMap: Map<string, string | null>
   ): Employee[] {
     const path: Employee[] = [];
-    let currentEmployee = employeeMap.get(employeeId);
-
-    while (currentEmployee) {
-      path.unshift(currentEmployee);
-      const managerId = managerMap.get(currentEmployee.id);
-      if (!managerId) {
-        break;
-      }
-      currentEmployee = employeeMap.get(managerId);
+    for (let id = employeeId; id; id = managerMap.get(id)!) {
+      const emp = employeeMap.get(id);
+      if (!emp) break;
+      path.unshift(emp);
+      if (!managerMap.get(id)) break;
     }
     return path;
   }
@@ -114,23 +106,20 @@ export class EmployeeService {
   }
 
   private buildSubordinateTreeSync(
-    structureNode: RawEmployeeNode | null,
+    node: RawEmployeeNode | null,
     employeeMap: Map<string, Employee>
   ): EmployeeNode[] {
-    if (!structureNode?.subordinates?.length) return [];
-    return structureNode.subordinates.map((subNode) => {
-      const employee = employeeMap.get(subNode.id) ?? {
-        id: subNode.id,
-        firstName: subNode.firstName,
-        lastName: subNode.lastName,
-        position: 'Unknown',
-      };
-      return {
-        employee,
-        children: this.buildSubordinateTreeSync(subNode, employeeMap),
+    return (
+      node?.subordinates?.map((s) => ({
+        employee: employeeMap.get(s.id) ?? {
+          id: s.id,
+          firstName: s.firstName,
+          lastName: s.lastName,
+        },
+        children: this.buildSubordinateTreeSync(s, employeeMap),
         isExpanded: false,
-      };
-    });
+      })) ?? []
+    );
   }
 
   getSubordinateTree(managerId: string): Observable<EmployeeNode[]> {
@@ -149,11 +138,9 @@ export class EmployeeService {
   ): RawEmployeeNode | null {
     if (!node) return null;
     if (node.id === id) return node;
-    if (node.subordinates) {
-      for (const sub of node.subordinates) {
-        const found = this.findNodeInStructure(sub, id);
-        if (found) return found;
-      }
+    for (const s of node.subordinates ?? []) {
+      const found = this.findNodeInStructure(s, id);
+      if (found) return found;
     }
     return null;
   }
