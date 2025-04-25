@@ -3,8 +3,6 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  AfterViewInit,
-  ChangeDetectorRef,
   ViewChild,
   ElementRef,
 } from '@angular/core';
@@ -17,7 +15,7 @@ import { EmployeeService } from '../../../../core/services/employee.service';
   templateUrl: './employee-select.component.html',
   styleUrls: ['./employee-select.component.scss'],
 })
-export class EmployeeSelectComponent implements OnInit, AfterViewInit {
+export class EmployeeSelectComponent implements OnInit {
   @ViewChild('employeeSelectElement')
   selectElementRef!: ElementRef<HTMLSelectElement>;
 
@@ -26,25 +24,16 @@ export class EmployeeSelectComponent implements OnInit, AfterViewInit {
 
   @Output() employeeSelected = new EventEmitter<Employee>();
 
-  constructor(
-    private employeeService: EmployeeService,
-    private cdRef: ChangeDetectorRef
-  ) {
+  constructor(private employeeService: EmployeeService) {
     this.employees$ = this.employeeService.getEmployees();
   }
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    if (this.selectElementRef) {
-      this.selectElementRef.nativeElement.selectedIndex = 0;
-    }
-  }
-
   onSelectionChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const employeeId = selectElement.value;
-    this.selectedEmployeeId = employeeId === 'null' ? null : employeeId;
+    this.selectedEmployeeId = employeeId === '' ? null : employeeId;
 
     if (this.selectedEmployeeId) {
       this.employeeService
@@ -55,6 +44,7 @@ export class EmployeeSelectComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
+      this.employeeSelected.emit(undefined);
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
-import { map, shareReplay, tap, catchError } from 'rxjs/operators';
+import { map, shareReplay, catchError } from 'rxjs/operators';
 import { Employee, EmployeeNode } from '../../shared/models/employee.model';
 
 interface RawEmployeeNode {
@@ -46,13 +46,10 @@ export class EmployeeService {
               emp.managerId = managerMap.get(emp.id) ?? null;
             }
           });
-          console.log('Built Manager Map:', managerMap);
           return { employees, employeeMap, managerMap, structure };
         }),
-        tap((data) => console.log('Processed data:', data)),
         shareReplay(1),
         catchError((error) => {
-          console.error('Error loading employee data:', error);
           return of({
             employees: [],
             employeeMap: new Map(),
@@ -106,7 +103,6 @@ export class EmployeeService {
       }
       currentEmployee = employeeMap.get(managerId);
     }
-    console.log(`Path for ${employeeId}:`, path);
     return path;
   }
 
@@ -122,13 +118,6 @@ export class EmployeeService {
     );
   }
 
-  private buildSubordinateTreeSync_OLD(
-    managerId: string | null,
-    allEmployees: Employee[]
-  ): EmployeeNode[] {
-    return [];
-  }
-
   private buildSubordinateTreeSync(
     structureNode: RawEmployeeNode | null,
     employeeMap: Map<string, Employee>
@@ -140,7 +129,6 @@ export class EmployeeService {
     return structureNode.subordinates.map((subNode) => {
       const employee = employeeMap.get(subNode.id);
       if (!employee) {
-        console.warn(`Employee not found in map for id: ${subNode.id}`);
         return {
           employee: {
             id: subNode.id,

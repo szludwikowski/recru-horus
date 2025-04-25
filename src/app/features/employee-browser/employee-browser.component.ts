@@ -18,22 +18,22 @@ export class EmployeeBrowserComponent {
 
   constructor(private employeeService: EmployeeService) {}
 
-  onEmployeeSelected(employee: Employee): void {
-    console.log('Employee selected in browser:', employee);
-    this.currentSelectedEmployee = employee;
-    this.allSubordinatesExpanded = false;
-
+  onEmployeeSelected(employee: Employee | undefined): void {
     if (employee) {
+      this.currentSelectedEmployee = employee;
+      this.allSubordinatesExpanded = false;
       this.subordinateTree$ = this.employeeService.getSubordinateTree(
         employee.id
       );
     } else {
+      this.currentSelectedEmployee = null;
       this.subordinateTree$ = of([]);
+      this.allSubordinatesExpanded = false;
     }
   }
 
   toggleAllSubordinates(): void {
-    if (this.subordinateTreeView) {
+    if (this.subordinateTreeView && this.currentSelectedEmployee) {
       if (this.allSubordinatesExpanded) {
         this.subordinateTreeView.collapseAll();
       } else {
