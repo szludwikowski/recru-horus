@@ -1,3 +1,53 @@
+# Employee Hierarchy Browser
+
+## O projekcie
+
+Aplikacja do przeglądania struktury hierarchii pracowników w firmie. Umożliwia wybranie pracownika z listy oraz wyświetlenie jego pozycji w hierarchii organizacji.
+
+## Struktura projektu
+
+```
+src/
+├── app/
+│   ├── core/                   # Serwisy i moduły kluczowe dla aplikacji
+│   │   └── services/
+│   │       └── employee.service.ts  # Serwis do obsługi danych pracowników
+│   ├── features/
+│   │   └── employee-browser/   # Moduł do przeglądania pracowników
+│   │       ├── components/
+│   │       │   ├── employee-hierarchy/  # Komponent wyświetlający hierarchię
+│   │       │   └── employee-select/     # Komponent wyboru pracownika
+│   │       └── employee-browser.component.ts
+│   └── shared/
+│       ├── components/
+│       │   └── tree-view/      # Uniwersalny komponent do wyświetlania drzewa
+│       └── models/
+│           └── employee.model.ts  # Model danych pracownika
+├── assets/
+│   └── data/                   # Pliki JSON z danymi
+│       ├── employee-structure.json  # Struktura hierarchii pracowników
+│       └── employees.json      # Lista pracowników
+```
+
+## Technologie
+
+Projekt został stworzony przy użyciu następujących technologii:
+- Angular 16.0.1
+- TypeScript
+- SCSS
+- npm 8.6.0
+- Node.js v16.14.2
+
+## Instalacja i uruchomienie
+
+1. Sklonuj repozytorium
+2. Zainstaluj zależności: `npm install`
+3. Uruchom aplikację: `npm start`
+4. Otwórz przeglądarkę na `http://localhost:4200/`
+
+<details>
+<summary><strong>Opis zadania (kliknij, aby rozwinąć)</strong></summary>
+
 # Opis zadania
 
 Twoim zdaniem będzie stworzenie prostej aplikacji, która pozwoli przeglądać dostępnych pracowników oraz sprawdzać gdzie
@@ -33,12 +83,5 @@ Przykładowa struktura pracowników.
 Przykład reprezentacji hierarchii wybranego Pracownika "D".
 
 ---
-Projekt został stworzony za pomocą narzędzi z następującymi wersjami:
-> npm 8.6.0
-
-> node v16.14.2
-
-> Angular CLI 16.0.1
-
----
 Horus
+</details>
