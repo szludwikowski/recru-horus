@@ -19,7 +19,14 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "src/app/app.component.css",
+              "src/app/features/employee-browser/employee-browser.component.scss",
+              "src/app/features/employee-browser/components/employee-hierarchy/employee-hierarchy.component.scss",
+              "src/app/features/employee-browser/components/employee-select/employee-select.component.scss",
+              "src/app/shared/components/tree-view/tree-view.component.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -36,7 +43,12 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": {
+                "styles": {
+                  "inlineCritical": false
+                }
+              }
             },
             "development": {
               "buildOptimizer": false,
@@ -73,7 +85,14 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "src/app/app.component.css",
+              "src/app/features/employee-browser/employee-browser.component.scss",
+              "src/app/features/employee-browser/components/employee-hierarchy/employee-hierarchy.component.scss",
+              "src/app/features/employee-browser/components/employee-select/employee-select.component.scss",
+              "src/app/shared/components/tree-view/tree-view.component.scss"
+            ],
             "scripts": []
           }
         }
