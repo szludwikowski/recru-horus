@@ -84,24 +84,4 @@ export class EmployeeStateService {
       isAllExpanded: isExpanded,
     });
   }
-
-  hasExpandableSubordinates(): Observable<boolean> {
-    return this.subordinates$.pipe(
-      map((nodes) => this.checkForExpandableNodes(nodes))
-    );
-  }
-
-  private checkForExpandableNodes(nodes: EmployeeNode[]): boolean {
-    for (const node of nodes) {
-      if (node.children && node.children.length > 0) {
-        return true;
-      }
-
-      if (node.children && this.checkForExpandableNodes(node.children)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }

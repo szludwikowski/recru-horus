@@ -144,25 +144,4 @@ export class EmployeeService {
     }
     return null;
   }
-
-  getFullHierarchyTree(): Observable<EmployeeNode[]> {
-    return this.getProcessedData().pipe(
-      map((data) => {
-        if (!data.structure) return [];
-        const rootEmployee = data.employeeMap.get(data.structure.id);
-        if (!rootEmployee) return [];
-
-        return [
-          {
-            employee: rootEmployee,
-            children: this.buildSubordinateTreeSync(
-              data.structure,
-              data.employeeMap
-            ),
-            isExpanded: true,
-          },
-        ];
-      })
-    );
-  }
 }
