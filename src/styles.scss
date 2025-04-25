@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DN+Sans&display=swap'); 
+
 :root {
   --primary-blue: #3b82f6; 
   --background-color: #f4f4f0;
@@ -9,7 +11,7 @@
 body {
   margin: 0;
   padding: 20px;
-  font-family: sans-serif;
+  font-family: 'DN Sans', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
 }
